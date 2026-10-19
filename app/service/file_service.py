@@ -28,13 +28,27 @@ class FileService:
 
         return len(list_files) > 0, list_files
 
-    async def generate_dataframe_from_csv(self,filepath:str, type_split_pattern:EtypeSplitPattern) -> dict[any]:
+    async def filter_dataframe_from_time_range(self, dataframe: dict[any], start:datetime, end:datetime, colum_name:str)-> pd.DataFrame: 
+        """
+            Filter the data frame using date colum
+            dataframe => pandas dataframe
+            start => Y-M-D the start period
+            end => Y-M-D the end period
+            colum_name => name of the column (data)
+        """
+        return  dataframe.where( 
+            (dataframe[colum_name] > start.strftime("%Y-%m-%d")) 
+                & 
+            (dataframe[colum_name] < end.strftime("%Y-%m-%d"))
+        ).dropna()
+
+    async def generate_dataframe_from_csv(self,filepath:str, type_split_pattern:EtypeSplitPattern) -> pd.DataFrame:
         """
             Read the csv and generate a dataframe
             filepath => filepath
             type_split_pattern=> tipe of delimiter (EtypeSplitPattern) in the csv 
         """
-        print(f"Arquivo a ser explorado : {filepath}")
+        print(f"File to be explore : {filepath}")
 
         csv_delimiter = ""
 

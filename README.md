@@ -15,3 +15,7 @@ REFERENCIAS:
 <https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html>
 <https://www.alura.com.br/artigos/lidando-com-datas-e-horarios-no-python>
 <https://www.geeksforgeeks.org/python/python-datetime-timedelta-function/>
+<https://stackoverflow.com/questions/36921951/truth-value-of-a-series-is-ambiguous-use-a-empty-a-bool-a-item-a-any-o>
+<https://stackoverflow.com/questions/26949755/pass-pandas-dataframe-into-class>
+<https://researchdatapod.com/how-to-solve-python-attributeerror-series-object-has-no-attribute-lower/>
+<https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.items.html>

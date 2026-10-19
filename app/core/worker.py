@@ -1,10 +1,12 @@
 from core.settings import Settings
 from service.file_service import FileService
+from schemas.customer_scheduler import CustomerScheduler
 from contracts.enum.Etype_export import EtypeExport
 from contracts.enum.Etype_period_of_day import EtypePeriodOfDay
 from contracts.enum.Etype_split_pattern import EtypeSplitPattern
-import datetime
 
+import datetime
+import pandasql
 import time
 
 class Worker:
@@ -24,7 +26,6 @@ class Worker:
         today = datetime.date.today()
         tommorow = today + datetime.timedelta(days=2)
 
-
         while True:
             
             has_itens, csv_files = await self.file_service.csv_to_be_processed(self.settings.file_path, self.settings.process_batch_limit)
@@ -41,13 +42,24 @@ class Worker:
                 try:
                     df = await self.file_service.generate_dataframe_from_csv(f"{self.settings.file_path}{item}", EtypeSplitPattern(self.settings.type_split_pattern))
 
-                    param_1 = df["data"] > today.strftime("%Y-%m-%d")
-                    param_2 = df["data"] < tommorow.strftime("%Y-%m-%d")
+                    df = await self.file_service.filter_dataframe_from_time_range(df,today,tommorow,"data")
+                    
+                    customer_list = CustomerScheduler(
+                        df["id"],
+                        df["paciente"],
+                        df["telefone"],
+                        df["aceita_whatsapp"],
+                        df["data"],
+                        df["hora"],
+                        df["exame"],
+                        df["situacao"]
+                    )
 
-                    print(
-                        df.where(param_1 and param_2)
-                          ) 
+                    df= None # help to clear the memory
 
+                    await customer_list.setup_class()
+                    
+                    
                 except Exception as e:
                     print(f"file to process {item} receive a exception \n{e}")
 
