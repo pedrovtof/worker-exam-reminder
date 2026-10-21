@@ -1,8 +1,7 @@
 from datetime import datetime
 import numpy as np
-import string
 
-class CustomerScheduler:
+class CustomerScheduler():
     """
     the csv customer entity
     """
@@ -17,7 +16,7 @@ class CustomerScheduler:
         self.accept_whatsapp : str = aceita_whatsapp
         self.date : str = data
         self.hour : str = hora
-        self.exame : str = exame
+        self.exam : str = exame
         self.situation : str = situacao
 
     async def setup_class(self):
@@ -34,24 +33,28 @@ class CustomerScheduler:
         """
         Fix telefone value from csv
         """
-        telefone = telefone.str.replace("(","")
-        telefone = telefone.str.replace(")","")
-        telefone = telefone.str.replace("-","")
-        telefone = telefone.str.replace("+","")
-        telefone = telefone.str.replace(" ","")
-        telefone = telefone.str.strip()
+        telefone = telefone.replace(" ","")
+        telefone = telefone.replace("(","")
+        telefone = telefone.replace(")","")
+        telefone = telefone.replace("-","")
+        telefone = telefone.replace("+","")
+        telefone = telefone.strip()
         return telefone
 
     async def _fix_accept_whatsapp(self,aceita_whatsapp:str) -> bool:
         """
         Fix the aceita_whatsapp csv value
         """
-        return aceita_whatsapp.str.lower() == "sim"
+        return aceita_whatsapp.lower() == "sim"
 
-    def validate_phone(self)->bool:
+    async def validate_phone(self)->bool:
         """
             validate if the phone is valid
         """
-        return len(self.phone) in (10,11)
-      
-        
+        try:
+            int(self.phone)
+            return len(self.phone) in (10,11)
+        except Exception as e:
+            print(f"phone is invalid {self.phone} : {e}")
+            return False
+

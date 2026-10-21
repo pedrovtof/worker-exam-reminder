@@ -35,3 +35,4 @@ class Settings:
         self.type_export: EtypeExport                = int(os.getenv("TYPE_EXPORT"))
         self.output_export: str                      = os.getenv("OUTPUT_EXPORT")
         self.process_batch_limit: int                = int(os.getenv("PROCESS_BATCH_LIMIT", 50))
+        self.clinic_name: str                        = os.getenv("CLINIC_NAME")

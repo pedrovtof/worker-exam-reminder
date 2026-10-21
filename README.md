@@ -19,3 +19,7 @@ REFERENCIAS:
 <https://stackoverflow.com/questions/26949755/pass-pandas-dataframe-into-class>
 <https://researchdatapod.com/how-to-solve-python-attributeerror-series-object-has-no-attribute-lower/>
 <https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.items.html>
+<https://docs.python.org/3/library/abc.html>
+<https://www.locaweb.com.br/ajuda/wiki/witch-case-python/>
+<https://docs.python.org/3/howto/sorting.html>
+<https://medium.com/@conniezhou678/mastering-data-algorithm-part-27-understanding-hash-map-in-python-aff129447502>

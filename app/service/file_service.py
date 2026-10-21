@@ -28,6 +28,28 @@ class FileService:
 
         return len(list_files) > 0, list_files
 
+    async def filter_valid_customer(self,dataframe: dict[any],start:datetime, end:datetime, colum_name:str):
+        """
+            agregation of basic filter for service
+        """
+        df = await self.filter_dataframe_from_time_range(dataframe,start,end, colum_name)
+        df = await self.filter_dataframe_by_valid_scheduler(df)
+        return df
+
+    async def filter_dataframe_by_valid_scheduler(self, dataframe):
+        """
+            Filter valid schedulers
+        """
+        return dataframe.where(
+            dataframe["situacao"] == "agendado"
+        ).dropna()
+
+    async def order_dataframe_by_hour_and_name(self, dataframe:dict[any], asc: bool = True):
+        """
+        Order dataframe by column hour
+        """
+        return dataframe.sort_values(by=["hora","paciente"],ascending=asc)
+
     async def filter_dataframe_from_time_range(self, dataframe: dict[any], start:datetime, end:datetime, colum_name:str)-> pd.DataFrame: 
         """
             Filter the data frame using date colum
